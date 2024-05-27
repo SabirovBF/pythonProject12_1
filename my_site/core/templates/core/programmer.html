@@ -1,0 +1,42 @@
+{% extends 'main.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+
+<div style="...">
+    <form method="get">
+        {% csrf_token %}
+        {% bootstrap_form filters.form %}
+        <button type="submit" class="btn btn-primary">Поиск</button>
+    </form>
+</div>
+
+{% for p in object_list %}
+<div class="card mb-1" style="...">
+    <div class="row g-0">
+        <div class="col-md-3">
+            <div class="media">
+                {% if p.photo %}
+                <img src="{{ p.photo.url }}" style="..." class="img-fluid rounded-start" alt="..." width="400" height="400">
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">{{ p.get_full_name }}</h5>
+                <div class="col-lg-4 d-flex align-items-stretch">
+                    <p class="card-text">Уровень: {{ p.grade }}</p>
+                </div>
+                <div class="col-lg-4 d-flex align-items-stretch">
+                    <p class="card-text">Тимлид: {{ p.is_teamlead | yesno:"да,нет" }}</p>
+                </div>
+                <div class="col-lg-4 d-flex align-items-stretch">
+                    <p class="card-text">Зарплата: {{ p.salary }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
+
